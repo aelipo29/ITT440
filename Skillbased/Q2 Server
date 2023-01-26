@@ -1,0 +1,22 @@
+import socket
+import struct
+
+def fahrenheit_to_celsius(temp_f):
+    temp_c = (temp_f - 32) * 5 / 9
+    return temp_c
+
+def main():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(("192.168.68.82", 8888))
+    s.listen()
+    while True:
+        client_socket.client_address = server_socket.accept ()
+	  print("Received connection from: ", client_address)
+        temp_f = c.recv(4)
+        temp_f = struct.unpack('!f',temp_f)[0]
+        temp_c = fahrenheit_to_celsius(temp_f)
+        temp_c = struct.pack('!f',temp_c)
+        c.send(temp_c)
+        c.close()
+
+main()

@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+int main() {
+    int sockfd;
+    char buffer[256];
+    char addr[INET_ADDRSTRLEN];
+    struct sockaddr_in serv_addr = {AF_INET, htons(8888)};
+    // convert IP address to struct in_addr
+    inet_pton(AF_INET, "192.168.68.82", &serv_addr.sin_addr);
+    // create socket
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    // connect to server
+    connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+    // read from server
+    read(sockfd, buffer, 255);
+    // print random number get from server
+    printf("Random number: %s\n", buffer);
+    printf("Received from server %s\n", inet_ntop(AF_INET, &serv_addr.sin_addr, addr,INET_ADDRSTRLEN));
+    // close socket
+    close(sockfd);
+    return 0;
+}
